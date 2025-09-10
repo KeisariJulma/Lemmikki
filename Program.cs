@@ -8,30 +8,30 @@ namespace Lemmikki
         static void Main(string[] args)
         {
             LemikkiDB db = new LemikkiDB();
-            Console.WriteLine("Welcome to Lemmikki Database!");
+            Console.WriteLine("Tervetuloa lemmikki tietokantaan.");
             while (true)
             {
                 Console.WriteLine(
-                    "Lisää uusi lemmikki: AddLemmikki\nPäivitä puhelinnumero: UpdatePhoneNumber\nEtsi lemmikki puhelinnumeron perusteella: FindByPhoneNumber\nExit: Exit");
+                    "Lisää uusi lemmikki: (L)\nPäivitä puhelinnumero: (P)\nEtsi lemmikki puhelinnumeron perusteella: (E)\nExit: Exit");
             
                 string input = Console.ReadLine();
 
                 switch (input)
                 {
-                    case "AddLemmikki":
+                    case "L":
                         db.AddLemmikki();
                         break;
-                    case "UpdatePhoneNumber":
+                    case "P":
                         db.UpdatePhoneNumber();
                         break;
-                    case "FindPhoneNumber":
+                    case "E":
                         db.FindPhonenumber();
                         break;
                     case "Exit":
                         System.Environment.Exit(0);
                         break;
                     default:
-                        Console.WriteLine("Invalid command. Please try again.");
+                        Console.WriteLine("Väärä komento. Yritä uudestaan.");
                         break;
                 }
             }

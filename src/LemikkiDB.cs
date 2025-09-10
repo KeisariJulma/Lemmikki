@@ -36,31 +36,42 @@ public class LemikkiDB
     
     
     
-    public void UpdatePhoneNumber(int ownerId, string newPhoneNumber)
+    public void UpdatePhoneNumber()
     {
+        Console.WriteLine("Omistajan id ja uusi puhelinnumero:");
+        string input = Console.ReadLine();
+        string[] parts = input.Split(' ');
+
+        if (parts.Length < 2)
+        {
+            Console.WriteLine("Anna kaikki kaksi tietoa välilyönnillä erotettuna.");
+            return;
+        }
+
         using (SqliteConnection connection = new SqliteConnection("Data Source=lemmikki.db"))
         {
             connection.Open();
-            string updateQuery = "UPDATE Omistaja SET Puhelin = @NewPhoneNumber WHERE Id = @OwnerId";
-            connection.Execute(updateQuery, new { NewPhoneNumber = newPhoneNumber, OwnerId = ownerId });
+            string updateQuery = "UPDATE Omistaja SET Puhelin = @parts[1] WHERE Id = @parts[0]";
+            connection.Execute(updateQuery, new { NewPhoneNumber = parts[1], OwnerId = parts[0] });
         }
     }
 
-    public void AddLemmikki(string name, string type, int ownerId)
-    {
-        using (SqliteConnection connection = new SqliteConnection("Data Source=lemmikki.db"))
-        {
-            connection.Open();
-            string insertQuery = @"IMSERT INTO Lemmikki (Nimi, Laji, Omistajan_Id) VALUES (@Name, @Type, @OwnerId)";
-            connection.Execute(insertQuery, new { Name = name, Type = type, OwnerId = ownerId });
-        }
-    }
+    
     
     public void AddLemmikki()
     {
         Console.WriteLine("Omistajan nimi, puhelinnumero ja lemmikki nimi ja tyyppi:");
-        string name = Console.ReadLine();
-        string[] parts = name.Split(' ');
+        string Input = Console.ReadLine();
+        
+        if (string.IsNullOrWhiteSpace(Input)) { return; }
+        string[] parts = Input.Split(' ');
+        
+        if (parts.Length < 4)
+        {
+            Console.WriteLine("Anna kaikki neljä tietoa välilyönnillä erotettuna.");
+            return;
+        }
+        
         using (SqliteConnection connection = new SqliteConnection("Data Source=lemmikki.db"))
         {
             connection.Open();
@@ -75,7 +86,9 @@ public class LemikkiDB
     public void FindPhonenumber()
     {
         Console.WriteLine("Lemmikkin nimi");
-        string name = Console.ReadLine();
+        string  input = Console.ReadLine();
+        if (string.IsNullOrWhiteSpace( input)) { return; }
+        
         using (SqliteConnection connection = new SqliteConnection("Data Source=lemmikki.db"))
         {
             connection.Open();
@@ -85,10 +98,10 @@ public class LemikkiDB
                 JOIN Lemmikki ON Omistaja.Id = Lemmikki.Omistajan_Id
                 WHERE Lemmikki.Nimi = @PetName
             ";
-            var phoneNumber = connection.QueryFirstOrDefault<string>(query, new { PetName = name });
+            var phoneNumber = connection.QueryFirstOrDefault<string>(query, new { PetName =  input });
             if (phoneNumber == null)
             {
-                throw new Exception("Puhelinnumeroa ei löytynyt");
+                Console.WriteLine("Nimi ei löytynyt");
                 return;
             }
 
