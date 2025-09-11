@@ -1,4 +1,3 @@
-using System;
 using Dapper;
 using Microsoft.Data.Sqlite;
 
@@ -15,7 +14,6 @@ public class LemikkiDB
     {
         using (SqliteConnection connection = new SqliteConnection("Data Source=lemmikki.db"))
         {
-            connection.Open();
             string createTablesQuery = @"
                 CREATE TABLE IF NOT EXISTS Omistaja (
                     Id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -50,7 +48,6 @@ public class LemikkiDB
 
         using (SqliteConnection connection = new SqliteConnection("Data Source=lemmikki.db"))
         {
-            connection.Open();
             string updateQuery = "UPDATE Omistaja SET Puhelin = @parts[1] WHERE Id = @parts[0]";
             connection.Execute(updateQuery, new { NewPhoneNumber = parts[1], OwnerId = parts[0] });
         }
@@ -74,7 +71,6 @@ public class LemikkiDB
         
         using (SqliteConnection connection = new SqliteConnection("Data Source=lemmikki.db"))
         {
-            connection.Open();
             string insertOwnerQuery = @"INSERT INTO Omistaja (Nimi, Puhelin) VALUES (@Name, @Phone)";
             connection.Execute(insertOwnerQuery, new { Name = parts[0], Phone = parts[1] });
             long ownerId = connection.ExecuteScalar<long>("SELECT last_insert_rowid();");
@@ -91,7 +87,6 @@ public class LemikkiDB
         
         using (SqliteConnection connection = new SqliteConnection("Data Source=lemmikki.db"))
         {
-            connection.Open();
             string query = @"
                 SELECT Omistaja.Puhelin
                 FROM Omistaja

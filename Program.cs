@@ -14,7 +14,7 @@ namespace Lemmikki
                 Console.WriteLine(
                     "Lisää uusi lemmikki: (L)\nPäivitä puhelinnumero: (P)\nEtsi lemmikkin perusteella puhelinnumero : (E)\nExit: Exit");
             
-                string input = Console.ReadLine();
+                string? input = Console.ReadLine();
 
                 switch (input)
                 {
