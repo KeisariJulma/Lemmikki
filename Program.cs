@@ -12,7 +12,7 @@ namespace Lemmikki
             while (true)
             {
                 Console.WriteLine(
-                    "Lisää uusi lemmikki: (L)\nPäivitä puhelinnumero: (P)\nEtsi lemmikki puhelinnumeron perusteella: (E)\nExit: Exit");
+                    "Lisää uusi lemmikki: (L)\nPäivitä puhelinnumero: (P)\nEtsi lemmikkin perusteella puhelinnumero : (E)\nExit: Exit");
             
                 string input = Console.ReadLine();
 
